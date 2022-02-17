@@ -8,17 +8,18 @@
 }
 
 .error {
-  border: red 1px solid;
+  border: red 5px solid;
+  outline: transparent;
+
 }
 
 .error-message {
   color: red;
 }
 
-.active-filter {
-  background-color: aquamarine;
-}
-
 .is-done {
-  opacity: 0.5;
+  opacity: 50%;
+}
+.active {
+  background-color: aquamarine;
 }

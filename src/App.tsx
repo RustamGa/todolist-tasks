@@ -1,45 +1,65 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {FullInput} from "./Components/FullInput";
-import {Input} from "./Components/Input";
-import {Button} from "./Components/Button";
+import {Todolist} from './Todolist';
+import {v1} from "uuid";
 
+export type FilterPropsType = 'All' | 'Active' | 'Completed'
 
 function App() {
 
-    let [message, setMessage] = useState([
-        {message: 'message1'},
-        {message: 'message2'},
-        {message: 'message3'},
-        {message: 'message4'}
+    let [tasks, setTask] = useState([
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "ReactJS", isDone: false}
     ])
+    let [filter, setFilter] = useState<FilterPropsType>("All")
 
-    let [title, setTitle] = useState('')
 
-    const addMessage = (title: string) => {
-        setMessage([...message, {message: title}])
+    const removeTasks = (id: string) => {
+        let newTasks = tasks.filter((t) =>
+            t.id !== id,
+        )
+        setTask(newTasks)
+    }
+    const addTask = (newTitle: string) => {
+        let newTask = {
+            id: v1(),
+            title: newTitle,
+            isDone: false
+        }
+        setTask([
+            ...tasks, newTask
+        ])
 
     }
-    const onClickButtonHandler = () => {
-        addMessage(title)
-        setTitle('')
+    const changeFilter = (value: FilterPropsType) => {
+        setFilter(value)
     }
+    let filteredTasks = tasks;
+    if (filter === "Active") {
+        filteredTasks = tasks.filter(t => t.isDone);
+    }
+    if (filter === "Completed") {
+        filteredTasks = tasks.filter(t => t.isDone === false);
+    }
+
+    const onChangeTaskStatus = (taskID: string, isDone: boolean) => {
+    tasks.map(t => t.id === taskID ? {...t, isDone:isDone} : t)
+        setTask([...tasks])
+    }
+
     return (
         <div className="App">
-            <Input setTitle={setTitle} title={title}/>
-            <Button onClickButtonHandler={onClickButtonHandler} title={'+'}/>
-            {/*<FullInput*/}
-            {/*    addMessage={addMessage}*/}
-            {/*/>*/}
-            {message.map((m, index) => {
-                    return (
-                        <div key={index}>
-                            {m.message}
-                        </div>
-                    )
-                }
-            )
-            }
+            <Todolist title="What to learn"
+                      tasks={filteredTasks}
+                      removeTasks={removeTasks}
+                      filter={filter}
+                      changeFilter={changeFilter}
+                      addTask={addTask}
+                      onChangeTaskStatus={onChangeTaskStatus}
+                      active={true}
+            />
+            {/*<Todolist title="Songs" tasks={tasks2} />*/}
         </div>
     );
 }
