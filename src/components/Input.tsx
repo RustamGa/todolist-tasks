@@ -1,7 +1,9 @@
 import React, {ChangeEvent, useState} from 'react';
+import {Button} from "./Button";
 
 type PropsType = {
-    callBack: (title: string) => void
+    callBack: (todoListID:string, title: string) => void
+    todoListID:string
 }
 
 export const Input = (props: PropsType) => {
@@ -16,8 +18,9 @@ export const Input = (props: PropsType) => {
     }
 
     const onCLickHandler = () => {
+        console.log(title)
         if (title.trim() !== '') {
-            props.callBack(title)
+            props.callBack(props.todoListID,title)
         } else {
             setError(true)
         }
@@ -25,7 +28,9 @@ export const Input = (props: PropsType) => {
     }
 
     return (
+        <div>
         <input
+            className={error ? 'error' : ''}
             value={title}
             onChange={onChangeHandler}
             onKeyPress={(event) => {
@@ -33,8 +38,10 @@ export const Input = (props: PropsType) => {
                     onCLickHandler()
                     setValue('')
                 }
-
             }}/>
+            <button onClick={onCLickHandler}>{'+'} </button>
+            {error && <div className={'error-message'}>Title is required</div>}
+            </div>
     );
 };
 
