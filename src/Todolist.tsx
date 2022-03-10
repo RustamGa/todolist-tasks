@@ -2,7 +2,8 @@ import React, {ChangeEvent, useState} from 'react';
 import {FilterPropsType} from "./App";
 import './App.css'
 import {Button} from "./components/Button";
-import {Input} from "./components/Input";
+import {AddItemForm} from "./components/AddItemForm";
+import {EditableSpan} from "./components/EditableSpan";
 
 type TaskType = {
     id: string
@@ -24,6 +25,8 @@ type PropsType = {
     onChangeTaskStatus: (todoListID: string, id: string, isDone: boolean) => void
     active: boolean
     removeTodoLists: (todoListID: string) => void
+    upDateTodoListTitle:(todoListID:string, title:string)=>void
+    upDateTaskTitle: (todoListID:string, taskID:string, title:string)=> void
 }
 
 export function Todolist(props: PropsType) {
@@ -45,6 +48,16 @@ export function Todolist(props: PropsType) {
     //     }
     //     setValue('')
     // }
+    const editTitleTask = (id:string,title:string) => {
+        props.upDateTaskTitle(props.todoListID, id, title)
+    }
+    const editTitleTodolist = (title:string) => {
+        props.upDateTodoListTitle(props.todoListID, title)
+
+    }
+    const addTodoListHandler = (title:string) => {
+        props.addTask(props.todoListID, title)
+    }
 
     const onAllClickHandler = () => {
         props.changeFilter(props.todoListID, 'All')
@@ -58,15 +71,16 @@ export function Todolist(props: PropsType) {
     const onRemoveClickHandler = (id: string) => props.removeTasks(props.todoListID, id)
 
     return <div>
-        <h3>{props.title}
+        <h3>
+            <EditableSpan callBack={editTitleTodolist} title={props.title} />
             <Button callBack={props.removeTodoLists} todoListID={props.todoListID} title={'X'} className={''}/>
             {/*<button onClick={() => props.removeTodoLists(props.todoListID)}>X</button>*/}
         </h3>
 
         <div>
-            <Input
-                callBack={props.addTask}
-                todoListID={props.todoListID}
+            <AddItemForm
+                callBack={addTodoListHandler}
+                // todoListID={props.todoListID}
             />
         </div>
         <ul>{props.tasks.map((t) => {
@@ -86,7 +100,9 @@ export function Todolist(props: PropsType) {
                            checked={t.isDone}
                            onChange={onChangeHandler}
                     />
-                    <span>{t.title}</span></li>
+                    <EditableSpan callBack={(title)=> editTitleTask(t.id, title)} title={t.title} />
+                    {/*<span>{t.title}</span>*/}
+                </li>
             )
         })}
         </ul>

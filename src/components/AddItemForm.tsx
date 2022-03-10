@@ -1,12 +1,11 @@
-import React, {ChangeEvent, useState} from 'react';
-import {Button} from "./Button";
+import React, {ChangeEvent,KeyboardEvent, useState} from 'react';
 
 type PropsType = {
-    callBack: (todoListID:string, title: string) => void
-    todoListID:string
+    callBack: (title: string) => void
+    // todoListID:string
 }
 
-export const Input = (props: PropsType) => {
+export const AddItemForm = (props: PropsType) => {
     let [title, setValue] = useState('')
     let [error, setError] = useState<boolean>(false)
 
@@ -20,11 +19,17 @@ export const Input = (props: PropsType) => {
     const onCLickHandler = () => {
         console.log(title)
         if (title.trim() !== '') {
-            props.callBack(props.todoListID,title)
+            props.callBack(title)
         } else {
             setError(true)
         }
         setValue('')
+    }
+    const onKeyPressHandler = (event:KeyboardEvent<HTMLInputElement>) => {
+            if (event.key === "Enter") {
+                onCLickHandler()
+                setValue('')
+            }
     }
 
     return (
@@ -33,13 +38,9 @@ export const Input = (props: PropsType) => {
             className={error ? 'error' : ''}
             value={title}
             onChange={onChangeHandler}
-            onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                    onCLickHandler()
-                    setValue('')
-                }
-            }}/>
+            onKeyPress={onKeyPressHandler}/>
             <button onClick={onCLickHandler}>{'+'} </button>
+
             {error && <div className={'error-message'}>Title is required</div>}
             </div>
     );
