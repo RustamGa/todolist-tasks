@@ -3,6 +3,8 @@ import './App.css';
 import {TasksStateType, Todolist} from './Todolist';
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
+import ButtonAppBar from "./components/ButtonAppBar";
+import {Container, Grid, Paper} from "@material-ui/core";
 
 export type FilterPropsType = 'All' | 'Active' | 'Completed'
 
@@ -102,8 +104,12 @@ function App() {
 
         return (
             <div className="App">
+                <ButtonAppBar/>
+                <Container fixed>
+                    <Grid container style={{padding:"20px"}}>
                 <AddItemForm callBack={addTodoList}/>
-
+                    </Grid>
+                    <Grid container spacing={3}>
                 {todoLists.map((tl) => {
                     let filteredTasks = tasks[tl.id];
                     if (tl.filter === "Active") {
@@ -114,6 +120,8 @@ function App() {
                     }
 
                     return (
+                        <Grid item>
+                            <Paper style={{padding:"10px"}}>
                         <Todolist
                             key={tl.id}
                             todoListID={tl.id}
@@ -129,10 +137,14 @@ function App() {
                             upDateTodoListTitle={upDateTodoListTitle}
                             upDateTaskTitle = {upDateTaskTitle}
                         />
+                        </Paper>
+                        </Grid>
                     )
                 })
 
                 }
+                    </Grid>
+                </Container>
             </div>
         );
     }

@@ -1,4 +1,5 @@
-import React, {ChangeEvent,KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {Button, TextField} from "@material-ui/core";
 
 type PropsType = {
     callBack: (title: string) => void
@@ -25,24 +26,27 @@ export const AddItemForm = (props: PropsType) => {
         }
         setValue('')
     }
-    const onKeyPressHandler = (event:KeyboardEvent<HTMLInputElement>) => {
-            if (event.key === "Enter") {
-                onCLickHandler()
-                setValue('')
-            }
+    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            onCLickHandler()
+            setValue('')
+        }
     }
 
     return (
         <div>
-        <input
-            className={error ? 'error' : ''}
-            value={title}
-            onChange={onChangeHandler}
-            onKeyPress={onKeyPressHandler}/>
-            <button onClick={onCLickHandler}>{'+'} </button>
-
+            <TextField id="outlined-basic" label="Required" variant="outlined" size={"small"} value={title} onChange={onChangeHandler}
+                       error={error} onKeyPress={onKeyPressHandler}/>
+            {/*<input*/}
+            {/*    className={error ? 'error' : ''}*/}
+            {/*    value={title}*/}
+            {/*    onChange={onChangeHandler}*/}
+            {/*    onKeyPress={onKeyPressHandler}/>*/}
+            <Button variant="contained"
+                    style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', background: 'lightblue'}}
+                    onClick={onCLickHandler}>{'+'}</Button>
             {error && <div className={'error-message'}>Title is required</div>}
-            </div>
+        </div>
     );
 };
 
