@@ -8,7 +8,7 @@ import {Container, Grid, Paper} from "@material-ui/core";
 
 export type FilterPropsType = 'All' | 'Active' | 'Completed'
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterPropsType

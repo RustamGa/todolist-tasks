@@ -4,6 +4,7 @@ import './App.css'
 // import {Button} from "./components/Button";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
+import {CheckBox} from "./components/CheckBox"
 import {Delete} from "@material-ui/icons";
 import Button  from "@material-ui/core/Button";
 import {Checkbox, IconButton} from "@material-ui/core";
@@ -73,6 +74,10 @@ export function Todolist(props: PropsType) {
     }
     const onRemoveClickHandler = (id: string) => props.removeTasks(props.todoListID, id)
 
+    const onChangeHandler = (id:string, isDone:boolean, event:boolean) => {
+        props.onChangeTaskStatus(props.todoListID, id, isDone = event)
+    }
+
     return <div>
         <h3>
             <EditableSpan callBack={editTitleTodolist} title={props.title}/>
@@ -90,10 +95,10 @@ export function Todolist(props: PropsType) {
             />
         </div>
         <ul>{props.tasks.map((t) => {
-            const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                let isDone = e.currentTarget.checked
-                props.onChangeTaskStatus(props.todoListID, t.id, t.isDone = isDone)
-            }
+            // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            //     let isDone = e.currentTarget.checked
+            //     props.onChangeTaskStatus(props.todoListID, t.id, t.isDone = isDone)
+            // }
             return (
                 <li className={t.isDone ? "is-done" : ""} key={t.id}>
                     <IconButton aria-label="delete">
@@ -105,13 +110,17 @@ export function Todolist(props: PropsType) {
                     {/*    title={"x"}*/}
                     {/*    className={''}*/}
                     {/*/>*/}
-                    <Checkbox defaultChecked
-                              color={'primary'}
-                              checked={t.isDone}
-                              onChange={onChangeHandler}/>
+                    {/*<Checkbox defaultChecked*/}
+                    {/*          color={'primary'}*/}
+                    {/*          checked={t.isDone}*/}
+                    {/*          onChange={onChangeHandler}/>*/}
+                    <CheckBox
+                        checked={t.isDone}
+                    callBack={(event)=>onChangeHandler(t.id, t.isDone, event )}/>
+
                     {/*<input type="checkbox"*/}
                     {/*       checked={t.isDone}*/}
-                    {/*       onChange={onChangeHandler}*/}
+                    {/*       onChange={(e)=>onChangeHandler(t.id, t.isDone, e.currentTarget.checked)}*/}
                     {/*/>*/}
                     <EditableSpan callBack={(title) => editTitleTask(t.id, title)} title={t.title}/>
                     {/*<span>{t.title}</span>*/}
