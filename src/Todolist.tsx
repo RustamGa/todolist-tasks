@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import {FilterPropsType} from "./App";
+import {FilterPropsType} from "./AppWithReducer";
 import './App.css'
 // import {Button} from "./components/Button";
 import {AddItemForm} from "./components/AddItemForm";

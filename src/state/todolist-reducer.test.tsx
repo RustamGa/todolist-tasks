@@ -6,9 +6,14 @@ import {
     ChangeTodoListFilterAC
 } from './todolists-reducer';
 import {v1} from 'uuid';
-import {FilterPropsType, TodoListType} from '../App';
+import {FilterPropsType, TodoListType} from '../AppWithReducer';
 
-test('correct todolist should be removed', () => {
+let todolistID1:string;
+let todolistID2:string;
+
+let startState: Array<TodoListType>
+
+beforeEach(()=>{
     let todolistID1 = v1();
     let todolistID2 = v1();
 
@@ -16,6 +21,15 @@ test('correct todolist should be removed', () => {
         {id: todolistID1, title: "What to learn", filter: "All"},
         {id: todolistID2, title: "What to buy", filter: "All"}
     ]
+})
+test('correct todolist should be removed', () => {
+    // let todolistID1 = v1();
+    // let todolistID2 = v1();
+    //
+    // const startState: Array<TodoListType> = [
+    //     {id: todolistID1, title: "What to learn", filter: "All"},
+    //     {id: todolistID2, title: "What to buy", filter: "All"}
+    // ]
 
     const endState = todoListReducer(startState, RemoveTodoListAC(todolistID1))
 
