@@ -6,7 +6,8 @@ type PropsType = {
     // todoListID:string
 }
 
-export const AddItemForm = (props: PropsType) => {
+export const AddItemForm = React.memo(function (props: PropsType) {
+    console.log("AddItemForm")
     let [title, setValue] = useState('')
     let [error, setError] = useState<boolean>(false)
 
@@ -16,9 +17,7 @@ export const AddItemForm = (props: PropsType) => {
         setError(false)
 
     }
-
     const onCLickHandler = () => {
-        console.log(title)
         if (title.trim() !== '') {
             props.callBack(title)
         } else {
@@ -35,18 +34,15 @@ export const AddItemForm = (props: PropsType) => {
 
     return (
         <div>
-            <TextField id="outlined-basic" label="Required" variant="outlined" size={"small"} value={title} onChange={onChangeHandler}
+            <TextField id="outlined-basic" label="Required" variant="outlined" size={"small"} value={title}
+                       onChange={onChangeHandler}
                        error={error} onKeyPress={onKeyPressHandler}/>
-            {/*<input*/}
-            {/*    className={error ? 'error' : ''}*/}
-            {/*    value={title}*/}
-            {/*    onChange={onChangeHandler}*/}
-            {/*    onKeyPress={onKeyPressHandler}/>*/}
             <Button variant="contained"
                     style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', background: 'lightblue'}}
-                    onClick={onCLickHandler}>{'+'}</Button>
+                    onClick={onCLickHandler}>{'+'}
+            </Button>
             {error && <div className={'error-message'}>Title is required</div>}
         </div>
     );
-};
+});
 

@@ -17,7 +17,6 @@ export default function ButtonAppBar() {
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-
                     >
                         <Menu />
                     </IconButton>

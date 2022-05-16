@@ -1,6 +1,6 @@
 import React, {useReducer, useState} from 'react';
 import './App.css';
-import {TasksStateType, Todolist} from './Todolist';
+import { TodolistWithReducer} from './TodolistWithReducer';
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
@@ -142,7 +142,7 @@ function AppWithReducer() {
                         return (
                             <Grid item>
                                 <Paper style={{padding: "10px"}}>
-                                    <Todolist
+                                    <TodolistWithReducer
                                         key={tl.id}
                                         todoListID={tl.id}
                                         title={tl.title}

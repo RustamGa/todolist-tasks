@@ -1,11 +1,6 @@
 import {FilterPropsType, TodoListType} from "../AppWithReducer";
 import {v1} from "uuid";
-import {TasksStateType} from "../Todolist";
-//
-// type ActionType = {
-//     type: string
-//     [key: string]: any
-// }
+
 const initialState:Array<TodoListType> = []
 
 export const todoListReducer = (state: Array<TodoListType>=initialState, action: todoListReducerACType):Array<TodoListType>=> {
