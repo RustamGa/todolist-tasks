@@ -36,10 +36,11 @@ export const AddItemForm = React.memo(function (props: PropsType) {
         <div>
             <TextField id="outlined-basic" label="Required" variant="outlined" size={"small"} value={title}
                        onChange={onChangeHandler}
-                       error={error} onKeyPress={onKeyPressHandler}/>
+                       error={error}
+                       onKeyPress={onKeyPressHandler}/>
             <Button variant="contained"
                     style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', background: 'lightblue'}}
-                    onClick={onCLickHandler}>{'+'}
+                    onClick={onCLickHandler}> {'+'}
             </Button>
             {error && <div className={'error-message'}>Title is required</div>}
         </div>
