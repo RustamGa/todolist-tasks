@@ -3,15 +3,14 @@ import {Delete} from "@material-ui/icons";
 import {CheckBox} from "./components/CheckBox";
 import {EditableSpan} from "./components/EditableSpan";
 import React, {useCallback} from "react";
-import {TaskType} from "./Todolist";
-import {useDispatch} from "react-redux";
-import {ChangeTasksStatusAC, ChangeTaskTitleAC, RemoveTasksAC} from "./state/tasks-reducer";
+import {TaskStatuses, TaskType} from "./api/tasks-api";
+
 
 type TaskPropsType = {
     todoListID: string
     task: TaskType
     removeTasks: (id: string, todoListID: string) => void
-    onChangeTaskStatusOnClickHandler: (e: boolean, id: string) => void
+    onChangeTaskStatusOnClickHandler: (status:TaskStatuses, id: string) => void
     onChangeTaskTitleOnClickHandler: (title: string, id: string) => void
 
 }
@@ -20,19 +19,18 @@ export const Task = React.memo((props: TaskPropsType) => {
             props.removeTasks(props.task.id, props.todoListID)
         }, [])
         const onChangeHandler = useCallback((e: boolean) => {
-            props.onChangeTaskStatusOnClickHandler(e, props.task.id)
+            props.onChangeTaskStatusOnClickHandler(e?TaskStatuses.Completed:TaskStatuses.New, props.task.id)
         }, [])
         const onChangeTaskTitleHandler = useCallback ((title:string) => {
             props.onChangeTaskTitleOnClickHandler(title, props.task.id)
         }, [props.task.id, props.onChangeTaskTitleOnClickHandler, props.todoListID])
-
         return (
-            <li className={props.task.isDone ? "is-done" : ""}>
+            <li className={props.task.status ? "is-done" : ""}>
                 <IconButton aria-label="delete" onClick={onClickHandler}>
                     <Delete />
                 </IconButton>
                 <CheckBox
-                    checked={props.task.isDone}
+                    checked={props.task.status === TaskStatuses.Completed}
                     callBack={onChangeHandler}/>
                 <EditableSpan callBack={onChangeTaskTitleHandler}
                               title={props.task.title}/>

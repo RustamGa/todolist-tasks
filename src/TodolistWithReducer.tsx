@@ -1,19 +1,15 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import {FilterPropsType} from "./AppWithReducer";
 import './App.css'
-// import {Button} from "./components/Button";
+
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import {CheckBox} from "./components/CheckBox"
 import {Delete} from "@material-ui/icons";
-import Button  from "@material-ui/core/Button";
-import {Checkbox, IconButton} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import {IconButton} from "@material-ui/core";
+import {TaskStatuses, TaskType} from "./api/tasks-api";
 
-type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
@@ -25,8 +21,8 @@ type PropsType = {
     removeTasks: (todoListID: string, id: string) => void
     filter: FilterPropsType
     changeFilter: (todoListID: string, value: FilterPropsType) => void
-    addTask: (todoListID: string, value: string) => void
-    onChangeTaskStatus: (todoListID: string, id: string, isDone: boolean) => void
+    addTask: (title: string, value: string) => void
+    onChangeTaskStatus: (todoListID: string, id: string, status:TaskStatuses) => void
     active: boolean
     removeTodoLists: (todoListID: string) => void
     upDateTodoListTitle: (todoListID: string, title: string) => void
@@ -74,8 +70,8 @@ export function TodolistWithReducer(props: PropsType) {
     }
     const onRemoveClickHandler = (id: string) => props.removeTasks(props.todoListID, id)
 
-    const onChangeHandler = (id:string, isDone:boolean, event:boolean) => {
-        props.onChangeTaskStatus(props.todoListID, id, isDone = event)
+    const onChangeHandler = (id: string, e:boolean) => {
+        props.onChangeTaskStatus(props.todoListID, id, e?TaskStatuses.Completed:TaskStatuses.New)
     }
 
     return <div>
@@ -100,7 +96,7 @@ export function TodolistWithReducer(props: PropsType) {
             //     props.onChangeTaskStatus(props.todoListID, t.id, t.isDone = isDone)
             // }
             return (
-                <li className={t.isDone ? "is-done" : ""} key={t.id}>
+                <li className={t.status ? "is-done" : ""} key={t.id}>
                     <IconButton aria-label="delete">
                         <Delete onClick={() => props.removeTasks(props.todoListID, t.id)}/>
                     </IconButton>
@@ -115,8 +111,8 @@ export function TodolistWithReducer(props: PropsType) {
                     {/*          checked={t.isDone}*/}
                     {/*          onChange={onChangeHandler}/>*/}
                     <CheckBox
-                        checked={t.isDone}
-                    callBack={(event)=>onChangeHandler(t.id, t.isDone, event )}/>
+                        checked={t.status===TaskStatuses.Completed}
+                        callBack={(e) => onChangeHandler(t.id, e)}/>
 
                     {/*<input type="checkbox"*/}
                     {/*       checked={t.isDone}*/}
@@ -129,13 +125,16 @@ export function TodolistWithReducer(props: PropsType) {
         })}
         </ul>
         <div>
-            <Button onClick={onAllClickHandler} variant="contained" style={{background:'lightblue'}} disabled={props.filter==="All"}>
+            <Button onClick={onAllClickHandler} variant="contained" style={{background: 'lightblue'}}
+                    disabled={props.filter === "All"}>
                 All
             </Button>
-            <Button onClick={onActiveClickHandler} variant="contained" style={{background:'lightblue'}} disabled={props.filter==="Active"}>
+            <Button onClick={onActiveClickHandler} variant="contained" style={{background: 'lightblue'}}
+                    disabled={props.filter === "Active"}>
                 Active
             </Button>
-            <Button onClick={onCompletedClickHandler} variant="contained" style={{background:'lightblue'}} disabled={props.filter==="Completed"}>
+            <Button onClick={onCompletedClickHandler} variant="contained" style={{background: 'lightblue'}}
+                    disabled={props.filter === "Completed"}>
                 Completed
             </Button>
             {/*<Button className={props.filter === "All" ? 'active' : ''} callBack={onAllClickHandler}*/}

@@ -1,33 +1,28 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {AddItemForm} from "./components/AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@material-ui/core";
-import {
-    AddTodoListAC
-} from "./state/todolists-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {creatTodolistTC, setTodolistsTC} from "./state/todolists-reducer";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useTypedDispatch} from "./state/store";
 import {Todolist} from "./Todolist";
+import {TodoListType} from './AppWithReducer';
 
-export type FilterPropsType = 'All' | 'Active' | 'Completed'
-
-export type TodoListType = {
-    id: string
-    title: string
-    filter: FilterPropsType
-}
 
 function AppWithRedux() {
     console.log("AppWithRedux")
     const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists)
-    const dispatch = useDispatch()
+    const dispatch = useTypedDispatch()
 
     const addTodoList = useCallback((newTodoListTitle: string) => {
-        const action = AddTodoListAC(newTodoListTitle)
+        const action = creatTodolistTC(newTodoListTitle)
         dispatch(action)
     }, [dispatch])
 
+    useEffect(() => {
+        dispatch(setTodolistsTC())
+    }, [])
     return (
         <div className="App">
             <ButtonAppBar/>

@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
+
 type CheckBoxPropsType = {
-    callBack:(event:boolean)=>void,
+    callBack:(e:boolean)=>void,
     checked:boolean
 }
 export const CheckBox = (props:CheckBoxPropsType) => {

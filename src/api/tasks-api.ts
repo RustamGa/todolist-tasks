@@ -10,27 +10,34 @@ const instance = axios.create({
 export const TasksApi = {
 
     getTasks: (todolistId: string) => {
-        return instance.get<TasksType[]>(`/todo-lists/${todolistId}/tasks`)
+        return instance.get<TasksType>(`/todo-lists/${todolistId}/tasks`)
     },
 
     createTask: (todolistId: string, title: string) => {
         return instance.post<CommonResponseDataType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks`,
             {title: title})
-
     },
 
-    deleteTask: (todolistId: string, taskId: string) => {
+    deleteTask: (taskId:string, todolistId:string) => {
         return instance.delete<CommonResponseDataType<{}>>(`/todo-lists/${todolistId}/tasks/${taskId}`)
     },
 
-    updateTask: (payload: UpdateTaskTitleType) => {
-        return instance.put<CommonResponseDataType<{ item: TaskType }>>(`/todo-lists/${payload.todolistId}/tasks/${payload.taskId}`,
-            {title: payload.title})
+    updateTask: (todolistId: string,  taskId: string, taskModule:UpdateTaskModelType) => {
+        return instance.put<CommonResponseDataType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`,
+            taskModule)
     }
 }
 export type UpdateTaskTitleType = {
     todolistId: string
     taskId: string
+    title: string
+}
+export type DeleteTaskType = {
+    todolistId: string
+    taskId: string
+}
+export type CreateTaskType = {
+    todolistId: string
     title: string
 }
 
@@ -39,8 +46,8 @@ export type TaskType = {
     description: string
     title: string
     completed: boolean
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
     id: string
@@ -52,7 +59,15 @@ export type TaskType = {
 export type TasksType = {
     items: TaskType[],
     totalCount: number,
-    error: null
+    error: null | string
+}
+export type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string
+    deadline: string
 }
 
 export type CommonResponseDataType<T> = {
@@ -60,4 +75,20 @@ export type CommonResponseDataType<T> = {
     fieldsErrors: string[]
     messages: string[]
     resultCode: number
+}
+
+
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4
 }
