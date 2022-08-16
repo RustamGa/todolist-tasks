@@ -1,17 +1,17 @@
 import React, {useCallback, useEffect} from 'react';
-import './App.css'
-import {AddItemForm} from "./components/AddItemForm";
-import {EditableSpan} from "./components/EditableSpan";
+import '../../../app/App.css'
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import {IconButton} from "@material-ui/core";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useTypedDispatch} from "./state/store";
-import {addTaskTC, deleteTasksTC, setTasksTC, updateTaskStatusTC} from "./state/tasks-reducer";
-import {ChangeTodoListFilterAC, changeTodolistTitleTC, deleteTodolistTC} from "./state/todolists-reducer";
-import {Task} from "./Task";
-import {TaskStatuses, TaskType} from "./api/tasks-api";
-import {TodoListType} from './AppWithReducer';
+import {AppRootStateType, useTypedDispatch} from "../../../app/store";
+import {addTaskTC, deleteTasksTC, setTasksTC, updateTaskStatusTC} from "./Task/tasks-reducer";
+import {ChangeTodoListFilterAC, changeTodolistTitleTC, deleteTodolistTC} from "./todolists-reducer";
+import {Task} from "./Task/Task";
+import {TaskStatuses, TaskType} from "../../../api/tasks-api";
+import {TodoListType} from '../../../trash/AppWithReducer';
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>

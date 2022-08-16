@@ -1,10 +1,10 @@
 import React from 'react';
 import {ComponentMeta, ComponentStory} from '@storybook/react';
-import AppWithRedux from "./AppWithRedux";
-import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
+import App from "./App";
+import {ReduxStoreProviderDecorator} from "../ReduxStoreProviderDecorator";
 import {combineReducers} from "redux";
-import {tasksReducer} from "./state/tasks-reducer";
-import {todoListReducer} from "./state/todolists-reducer";
+import {tasksReducer} from "../features/TodoListsList/Todolist/Task/tasks-reducer";
+import {todoListReducer} from "../features/TodoListsList/Todolist/todolists-reducer";
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
@@ -12,13 +12,13 @@ const rootReducer = combineReducers({
 })
 
 export default {
-  title: 'TODOLIST/AppWithRedux',
-  component: AppWithRedux,
+  title: 'TODOLIST/App',
+  component: App,
   decorators:[ReduxStoreProviderDecorator]
-} as ComponentMeta<typeof AppWithRedux>;
+} as ComponentMeta<typeof App>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof AppWithRedux> = () => <AppWithRedux /> ; // образец
+const Template: ComponentStory<typeof App> = () => <App /> ; // образец
 
 export const AppWithReduxStory = Template.bind({}); // истории созданные на основании нашего образца
 // More on args: https://storybook.js.org/docs/react/writing-stories/args

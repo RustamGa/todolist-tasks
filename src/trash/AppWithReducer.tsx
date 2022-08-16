@@ -1,9 +1,9 @@
 import React, {useReducer} from 'react';
-import './App.css';
+import '../app/App.css';
 import {TodolistWithReducer} from './TodolistWithReducer';
 import {v1} from "uuid";
-import {AddItemForm} from "./components/AddItemForm";
-import ButtonAppBar from "./components/ButtonAppBar";
+import {AddItemForm} from "../components/AddItemForm/AddItemForm";
+import ButtonAppBar from "../components/ButtonAppBar";
 import {Container, Grid, Paper} from "@material-ui/core";
 import {
     AddTodoListAC,
@@ -11,9 +11,9 @@ import {
     ChangeTodoListTitleAC,
     RemoveTodoListAC,
     todoListReducer
-} from "./state/todolists-reducer";
-import {AddTaskAC, UpdateTasksStatusAC, ChangeTaskTitleAC, RemoveTasksAC, tasksReducer} from "./state/tasks-reducer";
-import {TaskPriorities, TaskStatuses} from "./api/tasks-api";
+} from "../features/TodoListsList/Todolist/todolists-reducer";
+import {AddTaskAC, UpdateTasksStatusAC, RemoveTasksAC, tasksReducer} from "../features/TodoListsList/Todolist/Task/tasks-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
 import {action} from "@storybook/addon-actions";
 
 export type FilterPropsType = 'All' | 'Active' | 'Completed'
@@ -97,7 +97,7 @@ function AppWithReducer() {
 
         // setTask({...tasks, [todoListID]:tasks[todoListID].map(t=> t.id===taskID? {...t, title}:t)})
 
-        dispatchTask(ChangeTaskTitleAC(todoListID, taskID, title))
+        dispatchTask(UpdateTasksStatusAC( taskID, {title}, todoListID))
     }
     const removeTodoLists = (todoListID: string) => {
         // setTodoLists(todoLists.filter(tl => tl.id !== todoListID))

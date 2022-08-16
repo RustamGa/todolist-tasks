@@ -6,9 +6,9 @@ import {
     ChangeTodoListFilterAC, TodoListDomainType
 } from './todolists-reducer';
 import {v1} from 'uuid';
-import {FilterPropsType, TodoListType} from '../AppWithReducer';
-import {AddTaskAC} from "./tasks-reducer";
-import {TaskStatuses} from "../api/tasks-api";
+import {FilterPropsType, TodoListType} from '../../../trash/AppWithReducer';
+import {AddTaskAC} from "./Task/tasks-reducer";
+import {TaskStatuses} from "../../../api/tasks-api";
 
 let todolistID1:string;
 let todolistID2:string;
