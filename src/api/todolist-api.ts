@@ -34,7 +34,7 @@ export type CommonResponseDataType<T> = {
     data: T
     messages:string[],
     fieldsErrors:string[],
-    resultCode:0
+    resultCode:number
 }
 
 export type TodoType = {

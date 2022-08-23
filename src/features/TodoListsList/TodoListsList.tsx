@@ -3,14 +3,15 @@ import {useSelector} from "react-redux";
 import {AppRootStateType, useTypedDispatch} from "../../app/store";
 import {TodoListType} from "../../trash/AppWithReducer";
 import {creatTodolistTC, setTodolistsTC} from "./Todolist/todolists-reducer";
-import {Grid, Paper} from "@material-ui/core";
+import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 
 type TodoListsListPropsType = {
+    demo?:boolean
 }
 
-export const TodoListsList:React.FC<TodoListsListPropsType> = (props) => {
+export const TodoListsList: React.FC<TodoListsListPropsType> = ({demo=false}) => {
     const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists)
     const dispatch = useTypedDispatch()
 
@@ -20,9 +21,12 @@ export const TodoListsList:React.FC<TodoListsListPropsType> = (props) => {
     }, [dispatch])
 
     useEffect(() => {
+        debugger
+        if (demo){
+            return;
+        }
         dispatch(setTodolistsTC())
     }, [])
-
     return (
         <>
             <Grid container style={{padding: "20px"}}>
@@ -36,6 +40,7 @@ export const TodoListsList:React.FC<TodoListsListPropsType> = (props) => {
                                 <Todolist
                                     key={tl.id}
                                     todoListID={tl.id}
+                                    demo={demo}
                                 />
                             </Paper>
                         </Grid>

@@ -1,7 +1,7 @@
 import {AddTaskAC, UpdateTasksStatusAC, RemoveTasksAC, tasksReducer} from './tasks-reducer';
 import {TasksStateType} from '../../../../trash/TodolistWithReducer';
 import {AddTodoListAC, RemoveTodoListAC} from "../todolists-reducer";
-import {TaskPriorities, TaskStatuses} from "../../../../api/tasks-api";
+import {DomainTaskType, TaskPriorities, TaskStatuses} from "../../../../api/tasks-api";
 
 let startState: TasksStateType = {}
 
@@ -16,7 +16,8 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: 'idle'
             },
             {
                 id: "2", title: "JS",
@@ -28,7 +29,8 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: 'idle'
             },
             {
                 id: "3", title: "React",
@@ -40,7 +42,8 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: 'idle'
             }
         ],
         "todolistID2": [
@@ -52,7 +55,8 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: 'idle'
             },
             {
                 id: "2", title: "milk", completed: true, description: '',
@@ -62,7 +66,8 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: 'idle'
             },
             {
                 id: "3", title: "tea", completed: true, description: '',
@@ -72,7 +77,8 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: 'idle'
             }
         ]
     };
@@ -86,14 +92,17 @@ test('correct task should be deleted from correct array', () => {
     expect(endState).toEqual({
         "todolistID1": [
             {
-                id: "1", title: "CSS", completed: true, description: '',
+                id: "1", title: "CSS",
+                completed: true,
+                description: '',
                 status: TaskStatuses.Completed,
                 todoListId: "todolistID1",
                 priority: TaskPriorities.Low,
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus:'idle'
             },
             {
                 id: "2", title: "JS",
@@ -105,7 +114,8 @@ test('correct task should be deleted from correct array', () => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus:'idle'
             },
             {
                 id: "3", title: "React",
@@ -117,7 +127,8 @@ test('correct task should be deleted from correct array', () => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus:'idle'
             }
         ],
         "todolistID2": [
@@ -129,7 +140,8 @@ test('correct task should be deleted from correct array', () => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus:'idle'
             },
             {
                 id: "3", title: "tea", completed: true, description: '',
@@ -139,7 +151,8 @@ test('correct task should be deleted from correct array', () => {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus:'idle'
             }
         ]
     });
@@ -159,7 +172,7 @@ test('correct task should be added to correct array', () => {
         order: 0,
         deadline: "",
         completed: true,
-        description: ""
+        description: "",
     });
 
     const endState = tasksReducer(startState, action)

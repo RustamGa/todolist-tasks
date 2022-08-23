@@ -41,7 +41,8 @@ TaskIsDoneStory.args = {
         startDate: '',
         deadline: '',
         todoListId: 'ddwdw',
-        priority: TaskPriorities.Low
+        priority: TaskPriorities.Low,
+        entityStatus:'idle'
     }
 };
 export const TaskIsNotDoneStory = Template.bind({}); // истории созданные на основании нашего образца
@@ -50,7 +51,8 @@ export const TaskIsNotDoneStory = Template.bind({}); // истории созд�
 TaskIsNotDoneStory.args = {
     todoListID: 'ddwdw',
     task: {
-        id: 'dwd', title: 'JS', status: TaskStatuses.Completed,
+        id: 'dwd', title: 'JS',
+        status: TaskStatuses.New,
         description: '',
         completed: true,
         addedDate: '',
@@ -58,24 +60,8 @@ TaskIsNotDoneStory.args = {
         startDate: '',
         deadline: '',
         todoListId: 'ddwdw',
-        priority: TaskPriorities.Low
+        priority: TaskPriorities.Low,
+        entityStatus: 'idle'
     }
 };
 
-
-// export const Secondary = Template.bind({});
-// Secondary.args = {
-//   label: 'Button',
-// };
-//
-// export const Large = Template.bind({});
-// Large.args = {
-//   size: 'large',
-//   label: 'Button',
-// };
-//
-// export const Small = Template.bind({});
-// Small.args = {
-//   size: 'small',
-//   label: 'Button',
-// };

@@ -1,23 +1,32 @@
 import React from 'react';
 import './App.css';
 import ButtonAppBar from "../components/ButtonAppBar";
-import {Container} from "@material-ui/core";
+import {Container, LinearProgress} from "@mui/material";
 import {TodoListsList} from "../features/TodoListsList/TodoListsList";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useTypedDispatch} from "./store";
+import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 
-
-function App() {
-    console.log("App")
-    return (
-        <div className="App">
-            <ButtonAppBar/>
-            <Container fixed>
-               <TodoListsList/>
-            </Container>
-        </div>
-    );
+type PropsType = {
+    demo?:boolean
 }
 
 
+function App({demo = false}:PropsType) {
+    console.log("App")
+    const status = useSelector<AppRootStateType>((state) => state.app.status)
+
+    return (
+        <div className="App">
+            <ButtonAppBar/>
+            {status === "loading" && <LinearProgress/>}
+            <Container fixed>
+                <TodoListsList demo={demo}/>
+            </Container>
+            <ErrorSnackbar/>
+        </div>
+    );
+}
 
 
 export default App;

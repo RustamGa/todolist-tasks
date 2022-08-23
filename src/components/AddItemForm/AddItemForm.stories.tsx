@@ -17,26 +17,17 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...args} />; // образец
 
-export const AddItemFormStory = Template.bind({}); // истории созданные на основании нашего образца
+export const AddItemFormBaseExampleStory = Template.bind({}); // истории созданные на основании нашего образца
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-
-AddItemFormStory.args = {
+AddItemFormBaseExampleStory.args = {
 callBack: action('Button inside form clicked')
 };
 
-// export const Secondary = Template.bind({});
-// Secondary.args = {
-//   label: 'Button',
-// };
-//
-// export const Large = Template.bind({});
-// Large.args = {
-//   size: 'large',
-//   label: 'Button',
-// };
-//
-// export const Small = Template.bind({});
-// Small.args = {
-//   size: 'small',
-//   label: 'Button',
-// };
+export const AddItemFormDisabledExampleStory = Template.bind({}); // истории созданные на основании нашего образца
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+AddItemFormDisabledExampleStory.args = {
+  callBack: action('Button inside form clicked'),
+  entityStatus: "loading"
+};
+
+

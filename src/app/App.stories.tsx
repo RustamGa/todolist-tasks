@@ -10,6 +10,7 @@ const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todoListReducer
 })
+export type AppRootStateType = ReturnType<typeof rootReducer>
 
 export default {
   title: 'TODOLIST/App',
@@ -18,7 +19,7 @@ export default {
 } as ComponentMeta<typeof App>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof App> = () => <App /> ; // образец
+const Template: ComponentStory<typeof App> = () => <App demo={true}/> ; // образец
 
 export const AppWithReduxStory = Template.bind({}); // истории созданные на основании нашего образца
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
@@ -26,3 +27,4 @@ export const AppWithReduxStory = Template.bind({}); // истории созда
 AppWithReduxStory.args = {
 
 };
+

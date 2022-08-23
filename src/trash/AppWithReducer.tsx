@@ -4,17 +4,20 @@ import {TodolistWithReducer} from './TodolistWithReducer';
 import {v1} from "uuid";
 import {AddItemForm} from "../components/AddItemForm/AddItemForm";
 import ButtonAppBar from "../components/ButtonAppBar";
-import {Container, Grid, Paper} from "@material-ui/core";
+import {Container, Grid, Paper} from "@mui/material";
 import {
-    AddTodoListAC,
     ChangeTodoListFilterAC,
     ChangeTodoListTitleAC,
     RemoveTodoListAC,
     todoListReducer
 } from "../features/TodoListsList/Todolist/todolists-reducer";
-import {AddTaskAC, UpdateTasksStatusAC, RemoveTasksAC, tasksReducer} from "../features/TodoListsList/Todolist/Task/tasks-reducer";
+import {
+    AddTaskAC,
+    RemoveTasksAC,
+    tasksReducer,
+    UpdateTasksStatusAC
+} from "../features/TodoListsList/Todolist/Task/tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
-import {action} from "@storybook/addon-actions";
 
 export type FilterPropsType = 'All' | 'Active' | 'Completed'
 
@@ -30,9 +33,9 @@ function AppWithReducer() {
 
     let [todoLists, dispatchTodolist] = useReducer(todoListReducer, [
         {id: todoListID1, title: "What to learn", filter: 'All', order: 0,
-            addedDate: ''},
+            addedDate: '', entityStatus: "idle"},
         {id: todoListID2, title: "What ti buy", filter: 'All',order: 0,
-            addedDate: ''},
+            addedDate: '', entityStatus: "idle"},
     ])
 
     let [tasks, dispatchTask] = useReducer(tasksReducer, {
@@ -44,7 +47,8 @@ function AppWithReducer() {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''},
+                addedDate: '',
+                entityStatus: 'idle'},
             {id: v1(), title: "PHP", completed:true, description: '',
                 status: TaskStatuses.Completed,
                 todoListId: todoListID1,
@@ -52,7 +56,8 @@ function AppWithReducer() {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''}
+                addedDate: '',
+                entityStatus:'idle'}
         ],
         [todoListID2]: [
             {id: v1(), title: "BOOK", completed:true, description: '',
@@ -62,7 +67,8 @@ function AppWithReducer() {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''},
+                addedDate: '',
+                entityStatus:'idle'},
             {id: v1(), title: "GAMES", completed:true, description: '',
                 status: TaskStatuses.Completed,
                 todoListId: todoListID1,
@@ -70,7 +76,8 @@ function AppWithReducer() {
                 startDate: '',
                 deadline: '',
                 order: 0,
-                addedDate: ''}
+                addedDate: '',
+                entityStatus: 'idle'}
         ]
     })
     // let [filter, setFilter] = useState<FilterPropsType>("All")

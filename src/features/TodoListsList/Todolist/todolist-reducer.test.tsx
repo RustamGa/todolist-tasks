@@ -1,14 +1,15 @@
 import {
-    RemoveTodoListAC,
-    todoListReducer,
-    AddTodoListAC,
+    AddTodoListAC, ChangeTodolistEntityStatusAC,
+    ChangeTodoListFilterAC,
     ChangeTodoListTitleAC,
-    ChangeTodoListFilterAC, TodoListDomainType
+    RemoveTodoListAC,
+    TodoListDomainType,
+    todoListReducer
 } from './todolists-reducer';
 import {v1} from 'uuid';
-import {FilterPropsType, TodoListType} from '../../../trash/AppWithReducer';
-import {AddTaskAC} from "./Task/tasks-reducer";
-import {TaskStatuses} from "../../../api/tasks-api";
+import {FilterPropsType} from '../../../trash/AppWithReducer';
+import {RequestStatusType} from "../../../app/app-reducer";
+import {ChangeTaskEntityStatusAC} from "./Task/tasks-reducer";
 
 let todolistID1:string;
 let todolistID2:string;
@@ -20,8 +21,8 @@ beforeEach(()=>{
      todolistID2 = v1();
 
     startState = [
-        {id: todolistID1, title: "What to learn", filter: "All", addedDate:'', order:0},
-        {id: todolistID2, title: "What to buy", filter: "All", addedDate:'', order:0}
+        {id: todolistID1, title: "What to learn", filter: "All", addedDate:'', order:0, entityStatus:"idle"},
+        {id: todolistID2, title: "What to buy", filter: "All", addedDate:'', order:0, entityStatus:"idle"}
     ]
 })
 test('correct todolist should be removed', () => {
@@ -52,8 +53,8 @@ test('correct todolist should be added', () => {
     });
 
     const startState: Array<TodoListDomainType> = [
-        {id: todolistId1, title: "What to learn", filter: "All",  addedDate:'', order:0},
-        {id: todolistId2, title: "What to buy", filter: "All",  addedDate:'', order:0}
+        {id: todolistId1, title: "What to learn", filter: "All",  addedDate:'', order:0, entityStatus: "idle"},
+        {id: todolistId2, title: "What to buy", filter: "All",  addedDate:'', order:0, entityStatus: "idle"}
     ]
 
     const endState = todoListReducer(startState, action)
@@ -69,8 +70,8 @@ test('correct todolist should change its name', () => {
     let newTodolistTitle = "New TodolistWithReducer";
 
     const startState: Array<TodoListDomainType> = [
-        {id: todolistId1, title: "What to learn", filter: "All", addedDate:'', order:0},
-        {id: todolistId2, title: "What to buy", filter: "All",  addedDate:'', order:0}
+        {id: todolistId1, title: "What to learn", filter: "All", addedDate:'', order:0, entityStatus:"idle"},
+        {id: todolistId2, title: "What to buy", filter: "All",  addedDate:'', order:0, entityStatus:"idle"}
     ]
 
     const action = {
@@ -92,8 +93,8 @@ test('correct filter of todolist should be changed', () => {
     let newFilter: FilterPropsType = "Completed";
 
     const startState: Array<TodoListDomainType> = [
-        {id: todolistId1, title: "What to learn", filter: "All", addedDate:'', order:0},
-        {id: todolistId2, title: "What to buy", filter: "All", addedDate:'', order:0}
+        {id: todolistId1, title: "What to learn", filter: "All", addedDate:'', order:0, entityStatus: "idle"},
+        {id: todolistId2, title: "What to buy", filter: "All", addedDate:'', order:0, entityStatus: "idle"}
     ]
 
     const action = {
@@ -108,6 +109,28 @@ test('correct filter of todolist should be changed', () => {
     expect(endState[1].filter).toBe(newFilter);
 });
 
+test('correct status of todolist should be changed', () => {
+    let todolistId1 = v1();
+    let todolistId2 = v1();
+
+    let newEntityStatus:RequestStatusType  = "loading";
+
+    const startState: Array<TodoListDomainType> = [
+        {id: todolistId1, title: "What to learn", filter: "All", addedDate:'', order:0, entityStatus: "idle"},
+        {id: todolistId2, title: "What to buy", filter: "All", addedDate:'', order:0, entityStatus: "idle"}
+    ]
+
+    const action = {
+        type: 'CHANGE-TODOLIST-STATUS',
+        id: todolistId2,
+        entityStatus: newEntityStatus
+    };
+
+    const endState = todoListReducer(startState, ChangeTodolistEntityStatusAC(todolistId2, newEntityStatus));
+
+    expect(endState[0].entityStatus).toBe("idle");
+    expect(endState[1].entityStatus).toBe(newEntityStatus);
+});
 
 
 

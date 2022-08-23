@@ -1,9 +1,10 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button, TextField} from "@material-ui/core";
+import {Button, TextField} from "@mui/material";
+import {RequestStatusType} from "../../app/app-reducer";
 
 type PropsType = {
     callBack: (title: string) => void
-    // todoListID:string
+    entityStatus?: RequestStatusType
 }
 
 export const AddItemForm = React.memo(function (props: PropsType) {
@@ -34,13 +35,19 @@ export const AddItemForm = React.memo(function (props: PropsType) {
 
     return (
         <div>
-            <TextField id="outlined-basic" label="Required" variant="outlined" size={"small"} value={title}
+            <TextField id="outlined-basic"
+                       label="Required"
+                       variant="outlined"
+                       size={"small"}
+                       value={title}
                        onChange={onChangeHandler}
                        error={error}
-                       onKeyPress={onKeyPressHandler}/>
+                       onKeyPress={onKeyPressHandler}
+                       disabled={props.entityStatus === 'loading'}
+            />
             <Button variant="contained"
                     style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', background: 'lightblue'}}
-                    onClick={onCLickHandler}> {'+'}
+                    onClick={onCLickHandler} disabled={props.entityStatus==='loading'}> {'+'}
             </Button>
             {error && <div className={'error-message'}>Title is required</div>}
         </div>

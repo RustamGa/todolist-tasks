@@ -1,14 +1,14 @@
-import {IconButton} from "@material-ui/core";
-import {Delete} from "@material-ui/icons";
+import {IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 import {CheckBox} from "../../../../components/CheckBox";
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import React, {useCallback} from "react";
-import {TaskStatuses, TaskType} from "../../../../api/tasks-api";
+import {DomainTaskType, TaskStatuses, TaskType} from "../../../../api/tasks-api";
 
 
 type TaskPropsType = {
     todoListID: string
-    task: TaskType
+    task: DomainTaskType
     removeTasks: (id: string, todoListID: string) => void
     onChangeTaskStatusOnClickHandler: (status:TaskStatuses, id: string) => void
     onChangeTaskTitleOnClickHandler: (title: string, id: string) => void
@@ -26,7 +26,7 @@ export const Task = React.memo((props: TaskPropsType) => {
         }, [props.task.id, props.onChangeTaskTitleOnClickHandler, props.todoListID])
         return (
             <li className={props.task.status ? "is-done" : ""}>
-                <IconButton aria-label="delete" onClick={onClickHandler}>
+                <IconButton aria-label="delete" onClick={onClickHandler} disabled={props.task.entityStatus==='loading'}>
                     <Delete />
                 </IconButton>
                 <CheckBox
@@ -38,10 +38,6 @@ export const Task = React.memo((props: TaskPropsType) => {
         )
     }
 )
-type TaskWithDispatchPropsType = {
-    task:TaskType
-    todoListID:string
-}
 
 // export const TaskWithDispatch = React.memo(({task, todoListID}:TaskWithDispatchPropsType) => {
 //     const dispatch = useDispatch()

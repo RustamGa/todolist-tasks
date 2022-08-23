@@ -1,4 +1,5 @@
 import axios from "axios";
+import {RequestStatusType} from "../app/app-reducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -36,11 +37,6 @@ export type DeleteTaskType = {
     todolistId: string
     taskId: string
 }
-export type CreateTaskType = {
-    todolistId: string
-    title: string
-}
-
 
 export type TaskType = {
     description: string
@@ -54,6 +50,9 @@ export type TaskType = {
     todoListId: string
     order: number
     addedDate: string
+}
+export type DomainTaskType = TaskType & {
+    entityStatus:RequestStatusType
 }
 
 export type TasksType = {

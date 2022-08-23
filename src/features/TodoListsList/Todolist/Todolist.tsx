@@ -2,16 +2,14 @@ import React, {useCallback, useEffect} from 'react';
 import '../../../app/App.css'
 import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
-import {Delete} from "@material-ui/icons";
-import Button from "@material-ui/core/Button";
-import {IconButton} from "@material-ui/core";
-import {useSelector} from "react-redux";
-import {AppRootStateType, useTypedDispatch} from "../../../app/store";
+import {Delete} from "@mui/icons-material";
+import Button from "@mui/material/Button";
+import {IconButton} from "@mui/material";
+import {useAppSelector, useTypedDispatch} from "../../../app/store";
 import {addTaskTC, deleteTasksTC, setTasksTC, updateTaskStatusTC} from "./Task/tasks-reducer";
 import {ChangeTodoListFilterAC, changeTodolistTitleTC, deleteTodolistTC} from "./todolists-reducer";
 import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/tasks-api";
-import {TodoListType} from '../../../trash/AppWithReducer';
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -19,13 +17,13 @@ export type TasksStateType = {
 
 type PropsType = {
     todoListID: string
+    demo?:boolean
 }
 
-export const Todolist = React.memo(function (props: PropsType) {
+export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
     console.log("TodoList is called")
-
-    const todoLists = useSelector<AppRootStateType, TodoListType>(state => state.todolists.filter(t => t.id === props.todoListID)[0])
-    const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.todoListID])
+    const todoLists = useAppSelector(state => state.todolists.filter(t => t.id === props.todoListID)[0])
+    const tasks = useAppSelector(state => state.tasks[props.todoListID])
 
     const dispatch = useTypedDispatch()
 
@@ -34,7 +32,7 @@ export const Todolist = React.memo(function (props: PropsType) {
     }, [props.todoListID, dispatch]);
 
 
-    const addTaskHandler = useCallback((  title: string) => {
+    const addTaskHandler = useCallback((title: string) => {
         dispatch(addTaskTC(props.todoListID, title))
     }, [dispatch]);
 
@@ -55,10 +53,10 @@ export const Todolist = React.memo(function (props: PropsType) {
     }, [dispatch]);
 
     const removeTasks = useCallback((id: string, todoListID: string) => {
-            dispatch(deleteTasksTC(id, todoListID))
+        dispatch(deleteTasksTC(id, todoListID))
     }, [dispatch]);
 
-    const changeTaskStatus = useCallback((status:TaskStatuses, id: string) => {
+    const changeTaskStatus = useCallback((status: TaskStatuses, id: string) => {
         dispatch(updateTaskStatusTC(id, props.todoListID, {status}))
     }, [props.todoListID, dispatch])
 
@@ -69,19 +67,24 @@ export const Todolist = React.memo(function (props: PropsType) {
 
     let filteredTasks = tasks;
     if (todoLists.filter === "Active") {
-        filteredTasks = tasks.filter(t => t.status===TaskStatuses.New);
+        filteredTasks = tasks.filter(t => t.status === TaskStatuses.New);
     }
     if (todoLists.filter === "Completed") {
         filteredTasks = tasks.filter(t => t.status === TaskStatuses.Completed);
     }
+
     useEffect(() => {
+        if (demo) {
+            return
+        }
         dispatch(setTasksTC(props.todoListID))
     }, [])
 
     return <div>
         <h3>
             <EditableSpan callBack={editTitleTodolist} title={todoLists.title}/>
-            <IconButton aria-label="delete" onClick={() => removeTodolist(props.todoListID)}>
+            <IconButton aria-label="delete" onClick={() => removeTodolist(props.todoListID)}
+                        disabled={todoLists.entityStatus === "loading"}>
                 <Delete/>
             </IconButton>
         </h3>
@@ -89,6 +92,7 @@ export const Todolist = React.memo(function (props: PropsType) {
         <div>
             <AddItemForm
                 callBack={addTaskHandler}
+                entityStatus={todoLists.entityStatus}
             />
         </div>
         <ul>{filteredTasks.map((task) => {
