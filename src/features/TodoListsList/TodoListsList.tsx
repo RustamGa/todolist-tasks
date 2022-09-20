@@ -1,19 +1,21 @@
 import React, {useCallback, useEffect} from "react";
 import {useSelector} from "react-redux";
-import {AppRootStateType, useTypedDispatch} from "../../app/store";
+import {AppRootStateType, useAppSelector, useTypedDispatch} from "../../app/store";
 import {TodoListType} from "../../trash/AppWithReducer";
 import {creatTodolistTC, setTodolistsTC} from "./Todolist/todolists-reducer";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
+import {Navigate} from "react-router-dom";
 
 type TodoListsListPropsType = {
-    demo?:boolean
+    demo?: boolean
 }
 
-export const TodoListsList: React.FC<TodoListsListPropsType> = ({demo=false}) => {
+export const TodoListsList: React.FC<TodoListsListPropsType> = ({demo = false}) => {
     const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists)
     const dispatch = useTypedDispatch()
+    const isLoggedIn = useAppSelector(state=>state.auth.isLoggedIn)
 
     const addTodoList = useCallback((newTodoListTitle: string) => {
         const action = creatTodolistTC(newTodoListTitle)
@@ -21,12 +23,16 @@ export const TodoListsList: React.FC<TodoListsListPropsType> = ({demo=false}) =>
     }, [dispatch])
 
     useEffect(() => {
-        debugger
-        if (demo){
+        if (demo || !isLoggedIn) {
             return;
         }
         dispatch(setTodolistsTC())
     }, [])
+
+    if (!isLoggedIn) {
+        return <Navigate to = {'/Login'}/>
+    }
+
     return (
         <>
             <Grid container style={{padding: "20px"}}>

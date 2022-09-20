@@ -6,8 +6,16 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import {Menu} from "@mui/icons-material";
+import {useAppSelector, useTypedDispatch} from "../app/store";
+import {logoutTC} from "../features/Login/auth-reducer";
 
 export default function ButtonAppBar() {
+    const dispatch = useTypedDispatch()
+    const isLoggedIn =  useAppSelector(state=>state.auth.isLoggedIn)
+    const logOutHandler = () => {
+        dispatch(logoutTC())
+    }
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -23,7 +31,7 @@ export default function ButtonAppBar() {
                     <Typography >
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button onClick={logOutHandler} color="inherit">Logout</Button>}
                 </Toolbar>
             </AppBar>
         </Box>
